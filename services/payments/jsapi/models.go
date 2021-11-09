@@ -966,3 +966,158 @@ func (o StoreInfo) Clone() *StoreInfo {
 
 	return &ret
 }
+
+// TradeBillRequest 申请交易账单请求
+type TradeBillRequest struct {
+	// 账单日期
+	// 格式YYYY-MM-DD 仅支持三个月内的账单下载申请
+	BillDate *string `json:"bill_date"`
+	// 账单类型 不填则默认是ALL
+	// ALL：返回当日所有订单信息（不含充值退款订单）
+	// SUCCESS：返回当日成功支付的订单（不含充值退款订单）
+	// REFUND：返回当日退款订单（不含充值退款订单）
+	BillType *string `json:"bill_type,omitempty"`
+	// 压缩类型 不填则默认是数据流
+	// GZIP：返回格式为.gzip的压缩包账单
+	TarType *string `json:"tar_type,omitempty"`
+}
+
+func (r TradeBillRequest) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+
+	if r.BillDate == nil {
+		return nil, fmt.Errorf("field `BillDate` is required and must be specified in TradeBillRequest")
+	}
+	toSerialize["bill_date"] = r.BillDate
+
+	if r.BillType != nil {
+		toSerialize["bill_type"] = r.BillType
+	}
+	if r.TarType != nil {
+		toSerialize["tar_type"] = r.TarType
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (r TradeBillRequest) String() string {
+	var ret string
+
+	if r.BillDate == nil {
+		ret += "BillDate:<nil>, "
+	} else {
+		ret += fmt.Sprintf("BillDate:%v, ", *r.BillDate)
+	}
+
+	if r.BillType == nil {
+		ret += "BillType:<nil>, "
+	} else {
+		ret += fmt.Sprintf("BillType:%v, ", *r.BillType)
+	}
+
+	if r.TarType == nil {
+		ret += "TarType:<nil>"
+	} else {
+		ret += fmt.Sprintf("TarType:%v", *r.TarType)
+	}
+
+	return ret
+}
+
+func (r TradeBillRequest) Clone() *TradeBillRequest {
+	ret := TradeBillRequest{}
+
+	if r.BillDate != nil {
+		ret.BillDate = new(string)
+		*ret.BillDate = *r.BillDate
+	}
+
+	if r.BillType != nil {
+		ret.BillType = new(string)
+		*ret.BillType = *r.BillType
+	}
+
+	if r.TarType != nil {
+		ret.TarType = new(string)
+		*ret.TarType = *r.TarType
+	}
+
+	return &ret
+}
+
+type BillResponse struct {
+	// 哈希类型
+	// 原始账单（gzip需要解压缩）的摘要值，用于校验文件的完整性。
+	HashType *string `json:"hash_type"`
+	// 哈希值
+	// 原始账单（gzip需要解压缩）的摘要值，用于校验文件的完整性。
+	HashValue *string `json:"hash_value"`
+	// 账单下载地址
+	// 供下一步请求账单文件的下载地址，该地址30s内有效。
+	DownloadURL *string `json:"download_url"`
+}
+
+func (r BillResponse) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+
+	if r.HashType == nil {
+		return nil, fmt.Errorf("field `HashType` is required and must be specified in BillResponse")
+	}
+	toSerialize["hash_type"] = r.HashType
+
+	if r.HashValue == nil {
+		return nil, fmt.Errorf("field `HashValue` is required and must be specified in BillResponse")
+	}
+	toSerialize["hash_value"] = r.HashValue
+
+	if r.DownloadURL == nil {
+		return nil, fmt.Errorf("field `DownloadURL` is required and must be specified in BillResponse")
+	}
+	toSerialize["download_url"] = r.DownloadURL
+
+	return json.Marshal(toSerialize)
+}
+
+func (r BillResponse) String() string {
+	var ret string
+
+	if r.HashType == nil {
+		ret += "HashType:<nil>, "
+	} else {
+		ret += fmt.Sprintf("HashType:%v, ", *r.HashType)
+	}
+
+	if r.HashValue == nil {
+		ret += "HashValue:<nil>, "
+	} else {
+		ret += fmt.Sprintf("HashValue:%v, ", *r.HashValue)
+	}
+
+	if r.DownloadURL == nil {
+		ret += "DownloadURL:<nil>"
+	} else {
+		ret += fmt.Sprintf("DownloadURL:%v", *r.DownloadURL)
+	}
+
+	return ret
+}
+
+func (r BillResponse) Clone() *BillResponse {
+	ret := BillResponse{}
+
+	if r.HashType != nil {
+		ret.HashType = new(string)
+		*ret.HashType = *r.HashType
+	}
+
+	if r.HashValue != nil {
+		ret.HashValue = new(string)
+		*ret.HashValue = *r.HashValue
+	}
+
+	if r.DownloadURL != nil {
+		ret.DownloadURL = new(string)
+		*ret.DownloadURL = *r.DownloadURL
+	}
+
+	return &ret
+}

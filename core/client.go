@@ -180,6 +180,65 @@ func (client *Client) requestWithJSONBody(ctx context.Context, method, requestUR
 	return client.doRequest(ctx, method, requestURL, nil, consts.ApplicationJSON, reqBody, reqBody.String())
 }
 
+func (client *Client) doRequestWithoutValidate(
+	ctx context.Context,
+	method string,
+	requestURL string,
+	header http.Header,
+	contentType string,
+	reqBody io.Reader,
+	signBody string,
+) (*APIResult, error) {
+
+	var (
+		err           error
+		authorization string
+		request       *http.Request
+	)
+
+	// Construct Request
+	if request, err = http.NewRequestWithContext(ctx, method, requestURL, reqBody); err != nil {
+		return nil, err
+	}
+
+	// Header Setting Priority:
+	// Fixed Headers > Per-Request Header Parameters
+
+	// Add Request Header Parameters
+	for key, values := range header {
+		for _, v := range values {
+			request.Header.Add(key, v)
+		}
+	}
+
+	// Set Fixed Headers
+	request.Header.Set(consts.Accept, "*/*")
+	request.Header.Set(consts.ContentType, contentType)
+
+	ua := fmt.Sprintf(consts.UserAgentFormat, consts.Version, runtime.GOOS, runtime.Version())
+	request.Header.Set(consts.UserAgent, ua)
+
+	// Set Authentication
+	if authorization, err = client.credential.GenerateAuthorizationHeader(
+		ctx, method, request.URL.RequestURI(),
+		signBody,
+	); err != nil {
+		return nil, fmt.Errorf("generate authorization err:%s", err.Error())
+	}
+	request.Header.Set(consts.Authorization, authorization)
+
+	// Send HTTP Request
+	result, err := client.doHTTP(request)
+	if err != nil {
+		return result, err
+	}
+	// Check if Success
+	if err = CheckResponse(result.Response); err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 func (client *Client) doRequest(
 	ctx context.Context,
 	method string,
@@ -287,6 +346,52 @@ func (client *Client) Request(
 		return nil, err
 	}
 	return client.doRequest(ctx, method, varURL.String(), headerParams, contentType, body, body.String())
+}
+
+// RequestWithoutValidate 向微信支付发送请求
+//
+// 相比于 Get / Post / Put / Patch / Delete 方法，本方法可以设置更多内容
+// 特别地，如果需要为当前请求设置 Header，可以使用本方法
+func (client *Client) RequestWithoutValidate(
+	ctx context.Context,
+	method, requestPath string,
+	headerParams http.Header,
+	queryParams url.Values,
+	postBody interface{},
+	contentType string,
+) (result *APIResult, err error) {
+
+	// Setup path and query parameters
+	varURL, err := url.Parse(requestPath)
+	if err != nil {
+		return nil, err
+	}
+
+	// Adding Query Param
+	query := varURL.Query()
+	for k, values := range queryParams {
+		for _, v := range values {
+			query.Add(k, v)
+		}
+	}
+
+	// Encode the parameters.
+	varURL.RawQuery = query.Encode()
+
+	if postBody == nil {
+		return client.doRequestWithoutValidate(ctx, method, varURL.String(), headerParams, contentType, nil, "")
+	}
+
+	// Detect postBody type and set body content
+	if contentType == "" {
+		contentType = consts.ApplicationJSON
+	}
+	var body *bytes.Buffer
+	body, err = setBody(postBody, contentType)
+	if err != nil {
+		return nil, err
+	}
+	return client.doRequestWithoutValidate(ctx, method, varURL.String(), headerParams, contentType, body, body.String())
 }
 
 func (client *Client) doHTTP(req *http.Request) (result *APIResult, err error) {
