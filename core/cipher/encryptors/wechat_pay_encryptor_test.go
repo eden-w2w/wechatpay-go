@@ -8,10 +8,10 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/eden-w2w/wechatpay-go/core"
+	"github.com/eden-w2w/wechatpay-go/utils"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/wechatpay-apiv3/wechatpay-go/core"
-	"github.com/wechatpay-apiv3/wechatpay-go/utils"
 )
 
 var testCertStrList = [2]string{

@@ -2,9 +2,9 @@ package jsapi
 
 import (
 	"context"
-	"github.com/wechatpay-apiv3/wechatpay-go/core"
-	"github.com/wechatpay-apiv3/wechatpay-go/core/option"
-	"github.com/wechatpay-apiv3/wechatpay-go/utils"
+	"github.com/eden-w2w/wechatpay-go/core"
+	"github.com/eden-w2w/wechatpay-go/core/option"
+	"github.com/eden-w2w/wechatpay-go/utils"
 	"log"
 	"testing"
 )

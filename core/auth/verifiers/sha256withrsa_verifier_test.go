@@ -5,11 +5,11 @@ package verifiers
 import (
 	"context"
 	"crypto/x509"
-	"github.com/wechatpay-apiv3/wechatpay-go/core/auth"
+	"github.com/eden-w2w/wechatpay-go/core/auth"
 	"testing"
 
-	"github.com/wechatpay-apiv3/wechatpay-go/core"
-	"github.com/wechatpay-apiv3/wechatpay-go/utils"
+	"github.com/eden-w2w/wechatpay-go/core"
+	"github.com/eden-w2w/wechatpay-go/utils"
 )
 
 const (

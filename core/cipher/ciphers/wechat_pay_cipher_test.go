@@ -8,11 +8,11 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/eden-w2w/wechatpay-go/core"
+	"github.com/eden-w2w/wechatpay-go/core/cipher/decryptors"
+	"github.com/eden-w2w/wechatpay-go/core/cipher/encryptors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/wechatpay-apiv3/wechatpay-go/core"
-	"github.com/wechatpay-apiv3/wechatpay-go/core/cipher/decryptors"
-	"github.com/wechatpay-apiv3/wechatpay-go/core/cipher/encryptors"
 )
 
 type Student struct {

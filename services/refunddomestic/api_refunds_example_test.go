@@ -14,10 +14,10 @@ import (
 	"context"
 	"log"
 
-	"github.com/wechatpay-apiv3/wechatpay-go/core"
-	"github.com/wechatpay-apiv3/wechatpay-go/core/option"
-	"github.com/wechatpay-apiv3/wechatpay-go/services/refunddomestic"
-	"github.com/wechatpay-apiv3/wechatpay-go/utils"
+	"github.com/eden-w2w/wechatpay-go/core"
+	"github.com/eden-w2w/wechatpay-go/core/option"
+	"github.com/eden-w2w/wechatpay-go/services/refunddomestic"
+	"github.com/eden-w2w/wechatpay-go/utils"
 )
 
 func ExampleRefundsApiService_Create() {

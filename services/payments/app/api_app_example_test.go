@@ -15,10 +15,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/wechatpay-apiv3/wechatpay-go/core"
-	"github.com/wechatpay-apiv3/wechatpay-go/core/option"
-	"github.com/wechatpay-apiv3/wechatpay-go/services/payments/app"
-	"github.com/wechatpay-apiv3/wechatpay-go/utils"
+	"github.com/eden-w2w/wechatpay-go/core"
+	"github.com/eden-w2w/wechatpay-go/core/option"
+	"github.com/eden-w2w/wechatpay-go/services/payments/app"
+	"github.com/eden-w2w/wechatpay-go/utils"
 )
 
 func ExampleAppApiService_CloseOrder() {

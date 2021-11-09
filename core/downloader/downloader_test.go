@@ -6,12 +6,12 @@ import (
 	"context"
 	"testing"
 
+	"github.com/eden-w2w/wechatpay-go/core"
+	"github.com/eden-w2w/wechatpay-go/core/downloader"
+	"github.com/eden-w2w/wechatpay-go/core/option"
+	"github.com/eden-w2w/wechatpay-go/utils"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/wechatpay-apiv3/wechatpay-go/core"
-	"github.com/wechatpay-apiv3/wechatpay-go/core/downloader"
-	"github.com/wechatpay-apiv3/wechatpay-go/core/option"
-	"github.com/wechatpay-apiv3/wechatpay-go/utils"
 )
 
 func TestNewCertificateDownloaderWithClient(t *testing.T) {
