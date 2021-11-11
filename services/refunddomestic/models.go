@@ -1136,3 +1136,24 @@ const (
 	TYPE_COUPON   Type = "COUPON"
 	TYPE_DISCOUNT Type = "DISCOUNT"
 )
+
+type RefundNotify struct {
+	// 直连商户号，直连商户的商户号，由微信支付生成并下发。
+	MerchanID *string `json:"mchid"`
+	// 商户订单号
+	OutTradeNo *string `json:"out_trade_no"`
+	// 微信支付订单号
+	TransactionID *string `json:"transaction_id"`
+	// 商户退款单号
+	OutRefundNo *string `json:"out_refund_no"`
+	// 微信支付退款单号
+	RefundID *string `json:"refund_id"`
+	// 退款状态
+	RefundStatus *string `json:"refund_status"`
+	// 退款成功时间
+	SuccessTime *string `json:"success_time,omitempty"`
+	// 退款入账账户
+	UserReceivedAccount *string `json:"user_received_account"`
+	// 金额信息
+	Amount *Amount `json:"amount"`
+}
