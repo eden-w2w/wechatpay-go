@@ -105,11 +105,11 @@ type StocksPagination struct {
 }
 
 type GiveCouponRequest struct {
-	StockID           string `json:"stock_id"`
-	OpenID            string `json:"openid"`
-	OutRequestNo      string `json:"out_request_no"`
-	AppID             string `json:"appid"`
-	StockCreatorMchID string `json:"stock_creator_mchid"`
+	StockID           string  `json:"stock_id"`
+	OpenID            *string `json:"openid"`
+	OutRequestNo      string  `json:"out_request_no"`
+	AppID             string  `json:"appid"`
+	StockCreatorMchID string  `json:"stock_creator_mchid"`
 }
 
 type GiveCouponResponse struct {

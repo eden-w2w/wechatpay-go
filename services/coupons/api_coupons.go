@@ -2,6 +2,7 @@ package coupons
 
 import (
 	"context"
+	"fmt"
 	"github.com/eden-w2w/wechatpay-go/core"
 	"github.com/eden-w2w/wechatpay-go/core/consts"
 	"github.com/eden-w2w/wechatpay-go/services"
@@ -82,6 +83,10 @@ func (s *CouponApiService) GiveCoupon(ctx context.Context, req GiveCouponRequest
 		localVarHeaderParams = nethttp.Header{}
 	)
 
+	if req.OpenID == nil {
+		return nil, nil, fmt.Errorf("field `OpenID` is required and must be specified in GiveCouponRequest")
+	}
+
 	localVarPath := consts.WechatPayAPIServer + "/v3/marketing/favor/users/{openid}/coupons"
 	// Build Path with Path Params
 	localVarPath = strings.Replace(
@@ -90,6 +95,7 @@ func (s *CouponApiService) GiveCoupon(ctx context.Context, req GiveCouponRequest
 		neturl.PathEscape(core.ParameterToString(req.OpenID, "")),
 		-1,
 	)
+	req.OpenID = nil
 
 	// Setup Body Params
 	localVarPostBody = req
