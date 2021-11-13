@@ -92,7 +92,7 @@ func (s *CouponApiService) GiveCoupon(ctx context.Context, req GiveCouponRequest
 	localVarPath = strings.Replace(
 		localVarPath,
 		"{openid}",
-		neturl.PathEscape(core.ParameterToString(req.OpenID, "")),
+		neturl.PathEscape(core.ParameterToString(*req.OpenID, "")),
 		-1,
 	)
 	req.OpenID = nil
